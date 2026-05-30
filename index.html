@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Brief: Billing — Airwallex</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --aw-orange: #FF6B2C;
+    --aw-purple: #6B2CF5;
+    --aw-purple-light: #EDE8FE;
+    --aw-orange-light: #FFF1EB;
+    --aw-dark: #111118;
+    --aw-mid: #44444F;
+    --aw-subtle: #8888A0;
+    --aw-border: #E5E5EE;
+    --aw-bg: #FFFFFF;
+    --aw-bg-soft: #F8F8FC;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--aw-bg);
+    color: var(--aw-dark);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .toc-sidebar { display: none; }
+    .main-content { margin-left: 0; }
+    .page-break { page-break-before: always; }
+    a { text-decoration: none; color: inherit; }
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  .toc-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: fixed;
+    top: 44px; left: 0; bottom: 0;
+    background: var(--aw-bg-soft);
+    border-right: 1px solid var(--aw-border);
+    padding: 28px 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .toc-logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--aw-border);
+    margin-bottom: 16px;
+  }
+  .toc-logo-mark {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 700; font-size: 15px; color: var(--aw-dark);
+    letter-spacing: -0.3px;
+  }
+  .toc-logo-mark span { color: var(--aw-orange); }
+  .toc-badge {
+    margin-top: 6px;
+    display: inline-block;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.8px;
+    text-transform: uppercase;
+    background: var(--aw-orange-light); color: var(--aw-orange);
+    padding: 2px 8px; border-radius: 20px;
+  }
+
+  .toc-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--aw-subtle);
+    padding: 0 20px 6px;
+  }
+
+  .toc-item {
+    display: block;
+    padding: 7px 20px;
+    font-size: 12.5px; font-weight: 500;
+    color: var(--aw-mid);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc-item:hover, .toc-item.active {
+    color: var(--aw-purple);
+    border-left-color: var(--aw-purple);
+    background: var(--aw-purple-light);
+  }
+  .toc-item.sub {
+    padding-left: 32px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--aw-subtle);
+  }
+  .toc-item.sub:hover { color: var(--aw-purple); }
+
+  .main-content {
+    margin-left: 220px;
+    flex: 1;
+    max-width: 920px;
+    padding: 0 56px 80px;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    padding: 44px 0 36px;
+    border-bottom: 2px solid var(--aw-border);
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .doc-header::after {
+    content: '';
+    position: absolute; bottom: -2px; left: 0;
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, var(--aw-orange), var(--aw-purple));
+  }
+  .doc-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; color: var(--aw-orange);
+    margin-bottom: 10px;
+  }
+  .doc-title {
+    font-size: 36px; font-weight: 700;
+    color: var(--aw-dark); letter-spacing: -0.8px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .doc-title span { color: var(--aw-purple); }
+  .doc-meta {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    font-size: 12.5px; color: var(--aw-subtle);
+  }
+  .doc-meta strong { color: var(--aw-mid); }
+
+  /* ── SECTIONS ── */
+  .section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--aw-border);
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    background: var(--aw-purple-light);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 18px; font-weight: 700;
+    color: var(--aw-dark); letter-spacing: -0.3px;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--aw-subtle);
+    font-weight: 400;
+  }
+
+  /* ── QUICK LINKS ── */
+  .links-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .links-group {
+    background: var(--aw-bg-soft);
+    border: 1px solid var(--aw-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+  }
+  .links-group-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--aw-orange);
+    margin-bottom: 10px;
+  }
+  .link-item {
+    display: flex; align-items: flex-start; gap: 7px;
+    margin-bottom: 7px; text-decoration: none;
+  }
+  .link-item .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--aw-purple); margin-top: 6px; flex-shrink: 0;
+  }
+  .link-item span {
+    font-size: 12.5px; color: var(--aw-purple); font-weight: 500;
+    line-height: 1.4;
+  }
+  .link-item span:hover { text-decoration: underline; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-left: 3px solid;
+    font-size: 13.5px;
+  }
+  .callout.orange { background: var(--aw-orange-light); border-color: var(--aw-orange); }
+  .callout.purple { background: var(--aw-purple-light); border-color: var(--aw-purple); }
+  .callout.gray { background: var(--aw-bg-soft); border-color: var(--aw-border); }
+  .callout-title { font-weight: 700; margin-bottom: 4px; font-size: 13px; }
+  .callout.orange .callout-title { color: var(--aw-orange); }
+  .callout.purple .callout-title { color: var(--aw-purple); }
+
+  /* ── VALUE PROP CARDS ── */
+  .vp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+  .vp-card {
+    border: 1px solid var(--aw-border);
+    border-radius: var(--radius-lg);
+    padding: 18px 16px;
+    background: var(--aw-bg);
+    transition: box-shadow 0.15s;
+  }
+  .vp-card:hover { box-shadow: 0 4px 20px rgba(107,44,245,0.08); }
+  .vp-card-icon { font-size: 22px; margin-bottom: 8px; }
+  .vp-card-title { font-size: 13px; font-weight: 700; color: var(--aw-dark); margin-bottom: 4px; }
+  .vp-card-body { font-size: 12.5px; color: var(--aw-mid); line-height: 1.5; }
+
+  /* ── ICP ── */
+  .icp-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .icp-card {
+    border: 1px solid var(--aw-border); border-radius: var(--radius-lg);
+    padding: 16px 18px; background: var(--aw-bg-soft);
+  }
+  .icp-card-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--aw-orange); margin-bottom: 6px;
+  }
+  .icp-card-title { font-size: 14px; font-weight: 700; color: var(--aw-dark); margin-bottom: 6px; }
+  .icp-card-body { font-size: 12.5px; color: var(--aw-mid); }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 20px;
+    background: var(--aw-purple-light); color: var(--aw-purple);
+  }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin-bottom: 20px; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  thead tr {
+    background: var(--aw-dark); color: #fff;
+  }
+  thead th {
+    padding: 10px 14px; font-weight: 600;
+    text-align: left; letter-spacing: 0.2px;
+    font-size: 12px;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody tr { border-bottom: 1px solid var(--aw-border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--aw-bg-soft); }
+  tbody td { padding: 10px 14px; color: var(--aw-mid); vertical-align: top; }
+  tbody td:first-child { color: var(--aw-dark); font-weight: 500; }
+  .check { color: #22C55E; font-weight: 700; }
+  .cross { color: #EF4444; }
+  .partial { color: var(--aw-orange); font-weight: 600; }
+  .comp-header { background: var(--aw-purple) !important; }
+  .aw-col { background: var(--aw-purple-light) !important; font-weight: 600; color: var(--aw-purple) !important; }
+
+  /* ── PRICING ── */
+  .pricing-note {
+    background: var(--aw-bg-soft); border: 1px solid var(--aw-border);
+    border-radius: var(--radius-lg); padding: 20px 24px;
+  }
+  .pricing-note p { font-size: 13px; color: var(--aw-mid); margin-bottom: 8px; }
+  .pricing-note p:last-child { margin-bottom: 0; }
+
+  /* ── PROCESS STEPS ── */
+  .process-steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex; gap: 16px;
+    position: relative; padding-bottom: 20px;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-left { display: flex; flex-direction: column; align-items: center; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--aw-purple); color: #fff;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-line {
+    width: 2px; background: var(--aw-border);
+    flex: 1; margin-top: 6px;
+  }
+  .step:last-child .step-line { display: none; }
+  .step-body { padding-top: 4px; padding-bottom: 4px; }
+  .step-title { font-size: 13.5px; font-weight: 700; color: var(--aw-dark); margin-bottom: 3px; }
+  .step-desc { font-size: 12.5px; color: var(--aw-mid); }
+
+  /* ── FAQ ── */
+  .faq-item {
+    border-bottom: 1px solid var(--aw-border);
+    padding: 14px 0;
+  }
+  .faq-item:first-child { padding-top: 0; }
+  .faq-q { font-size: 13.5px; font-weight: 700; color: var(--aw-dark); margin-bottom: 5px; }
+  .faq-a { font-size: 13px; color: var(--aw-mid); }
+  .faq-a a { color: var(--aw-purple); }
+
+  /* ── CONTACT CARDS ── */
+  .contacts-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .contact-card {
+    border: 1px solid var(--aw-border); border-radius: var(--radius-lg);
+    padding: 16px 18px; background: var(--aw-bg);
+  }
+  .contact-role {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--aw-orange); margin-bottom: 6px;
+  }
+  .contact-name { font-size: 14px; font-weight: 700; color: var(--aw-dark); margin-bottom: 2px; }
+  .contact-info { font-size: 12px; color: var(--aw-subtle); }
+  .contact-info a { color: var(--aw-purple); text-decoration: none; }
+  .placeholder-tag {
+    display: inline-block; background: var(--aw-orange-light); color: var(--aw-orange);
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── PILL BADGES ── */
+  .pill {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 9px; border-radius: 20px;
+  }
+  .pill-green { background: #DCFCE7; color: #16A34A; }
+  .pill-orange { background: var(--aw-orange-light); color: var(--aw-orange); }
+  .pill-gray { background: var(--aw-bg-soft); color: var(--aw-subtle); border: 1px solid var(--aw-border); }
+  .pill-purple { background: var(--aw-purple-light); color: var(--aw-purple); }
+
+  /* ── MISC ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  ul.check-list { list-style: none; padding: 0; }
+  ul.check-list li {
+    padding: 5px 0; font-size: 13px; color: var(--aw-mid);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  ul.check-list li::before { content: '✓'; color: var(--aw-orange); font-weight: 700; flex-shrink: 0; }
+  .subsection-title {
+    font-size: 14px; font-weight: 700; color: var(--aw-dark);
+    margin-bottom: 10px; margin-top: 20px;
+  }
+  p.body { font-size: 13.5px; color: var(--aw-mid); margin-bottom: 12px; line-height: 1.65; }
+  .divider { height: 1px; background: var(--aw-border); margin: 24px 0; }
+  .mono { font-family: 'DM Mono', monospace; font-size: 11.5px; }
+
+  .doc-footer {
+    padding: 24px 56px;
+    border-top: 1px solid var(--aw-border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11.5px; color: var(--aw-subtle);
+  }
+  .doc-footer .brand { font-weight: 700; color: var(--aw-dark); }
+
+  /* ── MOCK BANNER ── */
+  .mock-banner {
+    position: sticky; top: 0; z-index: 200;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 400;
+    padding: 11px 24px;
+    display: flex; align-items: flex-start; gap: 10px;
+    border-bottom: 3px solid var(--aw-orange);
+    line-height: 1.5;
+  }
+  .mock-banner strong { color: var(--aw-orange); font-weight: 700; }
+  .mock-banner-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<div class="mock-banner">
+  <span class="mock-banner-icon">⚠️</span>
+  <span><strong>Disclaimer:</strong> this is a mock document.</span>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR TOC -->
+  <nav class="toc-sidebar">
+    <div class="toc-logo">
+      <div class="toc-logo-mark">Airwallex</div>
+      <div class="toc-badge">Internal · GTM</div>
+    </div>
+    <div class="toc-label">Contents</div>
+    <a href="#links" class="toc-item">Quick Links</a>
+    <a href="#overview" class="toc-item">Product Overview</a>
+    <a href="#value-prop" class="toc-item">Value Proposition</a>
+    <a href="#icp" class="toc-item">Ideal Customer Profile</a>
+    <a href="#components" class="toc-item">Components Matrix</a>
+    <a href="#competitive" class="toc-item">Competitive Matrix</a>
+    <a href="#requirements" class="toc-item">Additional Requirements</a>
+    <a href="#pricing" class="toc-item">Pricing & Sales Process</a>
+    <a href="#faq" class="toc-item">FAQ</a>
+    <a href="#contacts" class="toc-item">Support POCs</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="doc-header">
+      <div class="doc-eyebrow">GTM Sales Resource · Internal Use Only</div>
+      <h1 class="doc-title">Sales Brief: <span>Billing</span></h1>
+      <div class="doc-meta">
+        <div><strong>Product:</strong> Airwallex Billing</div>
+        <div><strong>Audience:</strong> Account Executives, SEs, SDRs</div>
+        <div><strong>Last Updated:</strong> <span class="placeholder-tag">[DATE]</span></div>
+        <div><strong>Version:</strong> <span class="placeholder-tag">[v1.0]</span></div>
+        <div><strong>Owner:</strong> <span class="placeholder-tag">[Product Marketing]</span></div>
+      </div>
+    </header>
+
+
+    <!-- 1. QUICK LINKS -->
+    <section class="section" id="links">
+      <div class="section-header">
+        <div class="section-icon">🔗</div>
+        <div>
+          <div class="section-num">01</div>
+          <div class="section-title">Quick Links</div>
+        </div>
+      </div>
+
+      <div class="links-grid">
+        <div class="links-group">
+          <div class="links-group-title">Internal Resources</div>
+          <a href="#" class="link-item"><span class="dot"></span><span>Billing Product One-Pager</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Billing Demo Environment</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>SE Technical Handbook</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Objection Handling Guide</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Pricing Calculator (Salesforce)</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Competitive Intel Confluence</span></a>
+        </div>
+        <div class="links-group">
+          <div class="links-group-title">External / Product Docs</div>
+          <a href="https://www.airwallex.com/docs/billing/overview" class="link-item"><span class="dot"></span><span>Billing Overview (Docs)</span></a>
+          <a href="https://www.airwallex.com/docs/billing/invoicing/get-started-with-invoicing" class="link-item"><span class="dot"></span><span>Invoicing Docs</span></a>
+          <a href="https://www.airwallex.com/docs/billing/subscriptions/get-started-with-subscription-management" class="link-item"><span class="dot"></span><span>Subscriptions Docs</span></a>
+          <a href="https://www.airwallex.com/docs/billing/usage-based-billing/get-started-with-usage-based-billing" class="link-item"><span class="dot"></span><span>Usage-Based Billing Docs</span></a>
+          <a href="https://www.airwallex.com/docs/billing/airwallex-tax/overview" class="link-item"><span class="dot"></span><span>Tax / Compliance Docs</span></a>
+          <a href="https://www.airwallex.com/docs/billing/supported-currencies" class="link-item"><span class="dot"></span><span>Supported Currencies</span></a>
+        </div>
+        <div class="links-group">
+          <div class="links-group-title">Sales Collateral</div>
+          <a href="#" class="link-item"><span class="dot"></span><span>Billing Pitch Deck</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>ROI Calculator Template</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Customer Case Studies</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Discovery Question Bank</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Billing Demo Script</span></a>
+          <a href="#" class="link-item"><span class="dot"></span><span>Email Templates (Outreach)</span></a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 2. PRODUCT OVERVIEW -->
+    <section class="section" id="overview">
+      <div class="section-header">
+        <div class="section-icon">📋</div>
+        <div>
+          <div class="section-num">02</div>
+          <div class="section-title">Product Overview</div>
+        </div>
+      </div>
+
+      <p class="body">Airwallex Billing is an end-to-end <strong>quote-to-cash platform</strong> that enables businesses to create, send, and collect payment for invoices and subscriptions globally. Built on Airwallex's global payments infrastructure, Billing eliminates the need for third-party billing tools and removes FX friction for companies operating across borders.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="subsection-title">Core Capabilities</div>
+          <ul class="check-list">
+            <li>One-off invoicing with 160+ payment methods</li>
+            <li>Subscription management (flat, tiered, multi-frequency)</li>
+            <li>Usage-based billing with meters & aggregation</li>
+            <li>Hosted Billing Checkout (low-code go-live)</li>
+            <li>Automatic tax calculation (sales tax, VAT, GST)</li>
+            <li>Smart payment retries & dunning</li>
+            <li>Credit notes, partial refunds, proration</li>
+            <li>130+ currency support</li>
+            <li>Webhook-driven event notifications</li>
+            <li>Full REST API with sandbox environment</li>
+          </ul>
+        </div>
+        <div>
+          <div class="subsection-title">How It's Positioned</div>
+          <div class="callout purple">
+            <div class="callout-title">One Platform Advantage</div>
+            Airwallex Billing is the only billing solution natively connected to a global payment account — meaning revenue collected flows directly into Airwallex, enabling FX conversion, global payouts, and spend management without a separate treasury layer.
+          </div>
+          <div class="callout orange">
+            <div class="callout-title">Key Differentiator vs. Stripe Billing</div>
+            Airwallex Billing is built for globally-minded businesses. Stripe requires separate international accounts; Airwallex supports multi-entity, multi-currency billing in a single integrated platform.
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Product Architecture at a Glance</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Layer</th><th>Component</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Catalog</td><td>Products & Prices</td><td>Define what you sell and how you charge for it (flat, tiered, usage)</td></tr>
+            <tr><td>Customers</td><td>Billing Customers</td><td>Customer records with billing addresses, tax IDs, payment sources</td></tr>
+            <tr><td>Revenue</td><td>Invoices / Subscriptions</td><td>One-off or recurring revenue collection with auto-reconciliation</td></tr>
+            <tr><td>Checkout</td><td>Hosted / Embedded / API</td><td>Flexible integration options from low-code to fully custom</td></tr>
+            <tr><td>Compliance</td><td>Airwallex Tax</td><td>Automated indirect tax (VAT, GST, Sales Tax) calculation & reporting</td></tr>
+            <tr><td>Automation</td><td>Webhooks & Retries</td><td>Real-time event delivery, smart dunning, email notifications</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- 3. VALUE PROPOSITION -->
+    <section class="section" id="value-prop">
+      <div class="section-header">
+        <div class="section-icon">💡</div>
+        <div>
+          <div class="section-num">03</div>
+          <div class="section-title">Value Proposition</div>
+        </div>
+      </div>
+
+      <p class="body"><strong>Elevator pitch:</strong> "Airwallex Billing lets you automate your entire revenue collection workflow — invoices, subscriptions, and usage-based billing — across 130+ currencies, with built-in tax compliance, all inside the same platform you use to move money globally."</p>
+
+      <div class="vp-grid">
+        <div class="vp-card">
+          <div class="vp-card-icon">🌏</div>
+          <div class="vp-card-title">Global by Default</div>
+          <div class="vp-card-body">Collect revenue in 130+ currencies. No separate accounts, no patchwork of local processors. Payments settle directly into Airwallex accounts.</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-card-icon">⚡</div>
+          <div class="vp-card-title">Fast Time to Value</div>
+          <div class="vp-card-body">Hosted Billing Checkout goes live with minimal code. No need to build payment flows from scratch — redirect, and Airwallex handles the rest.</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-card-icon">🔄</div>
+          <div class="vp-card-title">Flexible Billing Models</div>
+          <div class="vp-card-body">One-off, flat subscription, tiered, per-unit, usage-based, hybrid — all in a single platform with multi-frequency support per subscription.</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-card-icon">📊</div>
+          <div class="vp-card-title">Tax Automation</div>
+          <div class="vp-card-body">Auto-calculate sales tax, VAT & GST globally. Reduce compliance overhead and audit risk with exportable tax reports per transaction.</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-card-icon">🛡️</div>
+          <div class="vp-card-title">Reduced Tech Burden</div>
+          <div class="vp-card-body">PCI-DSS SAQ A via Hosted Checkout. Smart retries, dunning, and proration handled automatically — no custom engineering needed.</div>
+        </div>
+        <div class="vp-card">
+          <div class="vp-card-icon">🔌</div>
+          <div class="vp-card-title">Platform Consolidation</div>
+          <div class="vp-card-body">Replace Stripe + Chargebee + local processors. One contract, one reconciliation, one support team. Lowers total cost of ownership.</div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Pain Points We Solve</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Customer Pain</th><th>Airwallex Billing Solution</th></tr></thead>
+          <tbody>
+            <tr><td>"We sell globally but manage 5+ payment processors"</td><td>Single Airwallex account, 130+ currencies, 160+ payment methods</td></tr>
+            <tr><td>"Tax compliance across regions is too complex to manage"</td><td>Automatic Tax Calculation for VAT, GST, Sales Tax — no manual rate setting</td></tr>
+            <tr><td>"Our dev team spent months building billing from scratch"</td><td>Hosted Checkout live in days; APIs for custom builds</td></tr>
+            <tr><td>"Failed payments are killing our MRR"</td><td>Smart retries, dunning flows, automatic email reminders</td></tr>
+            <tr><td>"We need usage-based pricing but our billing tool can't do it"</td><td>Meters, usage events, and aggregation built-in (GA soon)</td></tr>
+            <tr><td>"Reconciliation takes our finance team days each month"</td><td>Auto-reconciliation with Airwallex payments; exportable tax reports</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- 4. ICP -->
+    <section class="section" id="icp">
+      <div class="section-header">
+        <div class="section-icon">🎯</div>
+        <div>
+          <div class="section-num">04</div>
+          <div class="section-title">Ideal Customer Profile (ICP)</div>
+        </div>
+      </div>
+
+      <div class="icp-grid">
+        <div class="icp-card">
+          <div class="icp-card-label">Primary ICP</div>
+          <div class="icp-card-title">B2B SaaS — Growth Stage</div>
+          <div class="icp-card-body">Series A–C SaaS companies operating internationally, seeking to automate subscription billing and reduce payment ops overhead.</div>
+          <div class="tag-list">
+            <span class="tag">$1M–$50M ARR</span>
+            <span class="tag">Multi-currency</span>
+            <span class="tag">Tech-forward</span>
+            <span class="tag">Global customer base</span>
+          </div>
+        </div>
+        <div class="icp-card">
+          <div class="icp-card-label">Primary ICP</div>
+          <div class="icp-card-title">Platform / Marketplace</div>
+          <div class="icp-card-body">Digital platforms that bill end-users on behalf of suppliers or manage recurring service fees at scale across geographies.</div>
+          <div class="tag-list">
+            <span class="tag">API-first</span>
+            <span class="tag">High volume</span>
+            <span class="tag">Usage-based</span>
+            <span class="tag">APAC / EU focus</span>
+          </div>
+        </div>
+        <div class="icp-card">
+          <div class="icp-card-label">Secondary ICP</div>
+          <div class="icp-card-title">Professional Services / Agencies</div>
+          <div class="icp-card-body">Businesses that issue one-off or project-based invoices to international clients and need efficient payment collection.</div>
+          <div class="tag-list">
+            <span class="tag">Invoice-heavy</span>
+            <span class="tag">Cross-border</span>
+            <span class="tag">Finance-led</span>
+          </div>
+        </div>
+        <div class="icp-card">
+          <div class="icp-card-label">Secondary ICP</div>
+          <div class="icp-card-title">E-commerce / Subscription Commerce</div>
+          <div class="icp-card-body">Brands with recurring consumer or B2B subscription models looking to consolidate billing and payments on one platform.</div>
+          <div class="tag-list">
+            <span class="tag">Membership</span>
+            <span class="tag">Recurring revenue</span>
+            <span class="tag">Mixed pricing</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Disqualifying Signals</div>
+      <div class="callout gray">
+        <ul class="check-list" style="margin:0">
+          <li style="color:var(--aw-mid)">Domestic-only business with no international revenue — limited incremental value vs. local tools</li>
+          <li style="color:var(--aw-mid)">Requires ERP-deep billing (e.g., complex CPQ, contract amendments) — consider partner ecosystem</li>
+          <li style="color:var(--aw-mid)">No technical resources for integration — may need implementation partner support</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- 5. COMPONENTS COMPATIBILITY MATRIX -->
+    <section class="section" id="components">
+      <div class="section-header">
+        <div class="section-icon">🧩</div>
+        <div>
+          <div class="section-num">05</div>
+          <div class="section-title">Components Compatibility Matrix</div>
+        </div>
+      </div>
+
+      <p class="body">The table below outlines which Airwallex Billing components apply to each customer profile and whether each component is available via API, Web App, or both.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>B2B SaaS</th>
+              <th>Marketplace</th>
+              <th>Prof. Services</th>
+              <th>Subscription Commerce</th>
+              <th>API Support</th>
+              <th>Web App</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Invoicing (one-off)</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Partial</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Subscription Management</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Optional</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Usage-Based Billing</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">–</span></td>
+              <td><span class="partial">Partial</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Roadmap</span></td>
+            </tr>
+            <tr>
+              <td>Hosted Billing Checkout</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">N/A</span></td>
+            </tr>
+            <tr>
+              <td>Embedded Elements</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Optional</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">N/A</span></td>
+            </tr>
+            <tr>
+              <td>Mobile SDK</td>
+              <td><span class="partial">Optional</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">N/A</span></td>
+            </tr>
+            <tr>
+              <td>Automatic Tax (VAT/GST/Sales Tax)</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Credit Notes & Refunds</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Free Trials & Discounts</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Optional</span></td>
+              <td><span class="cross">–</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Webhooks & Event Notifications</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Optional</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Config only</span></td>
+            </tr>
+            <tr>
+              <td>Tax Reports & Exports</td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Roadmap</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="subsection-title">Checkout Integration Options — Effort & PCI Requirements</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Best For</th>
+              <th>Integration Effort</th>
+              <th>UI Control</th>
+              <th>PCI-DSS</th>
+              <th>Billing Modes Supported</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hosted Billing Checkout</td>
+              <td>Fast go-live, less dev bandwidth</td>
+              <td><span class="pill pill-green">Low</span></td>
+              <td>Basic theming</td>
+              <td class="mono">SAQ A</td>
+              <td>Payment · Subscription · Setup</td>
+            </tr>
+            <tr>
+              <td>Embedded Elements</td>
+              <td>Branded checkout, more control</td>
+              <td><span class="pill pill-orange">Medium</span></td>
+              <td>Advanced theming</td>
+              <td class="mono">SAQ A</td>
+              <td>Payment · Setup</td>
+            </tr>
+            <tr>
+              <td>Native Payments API</td>
+              <td>Fully custom UI, max control</td>
+              <td><span class="pill pill-gray">High</span></td>
+              <td>Full custom UI</td>
+              <td class="mono">ROC</td>
+              <td>Payment · Setup</td>
+            </tr>
+            <tr>
+              <td>Mobile SDK (iOS/Android)</td>
+              <td>Native mobile apps</td>
+              <td><span class="pill pill-orange">Medium</span></td>
+              <td>Advanced theming</td>
+              <td class="mono">SAQ A</td>
+              <td>Payment · Setup</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- 6. COMPETITIVE MATRIX -->
+    <section class="section" id="competitive">
+      <div class="section-header">
+        <div class="section-icon">⚔️</div>
+        <div>
+          <div class="section-num">06</div>
+          <div class="section-title">Feature Availability vs. Competing Platforms</div>
+        </div>
+      </div>
+
+      <div class="callout orange">
+        <div class="callout-title">Competitive Note</div>
+        This matrix is indicative based on publicly available information. Confirm current competitive positioning with the PMM team before customer-facing use. Do not share externally.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="aw-col">Airwallex Billing</th>
+              <th>Stripe Billing</th>
+              <th>Chargebee</th>
+              <th>Zuora</th>
+              <th>Paddle</th>
+              <th>Xero</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Invoicing (one-off)</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Subscription Management</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Basic (repeating invoices)</span></td>
+            </tr>
+            <tr>
+              <td>Usage-Based Billing</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Limited</span></td>
+              <td><span class="cross">✗</span></td>
+            </tr>
+            <tr>
+              <td>Hybrid Billing (mixed frequencies)</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="partial">Limited</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+            </tr>
+            <tr>
+              <td>Free Trials & Proration</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">✗</span></td>
+            </tr>
+            <tr>
+              <td>Discounts / Coupons</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Automatic Tax (VAT/GST/Sales Tax)</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓ (Stripe Tax, add-on)</span></td>
+              <td><span class="partial">Integration needed</span></td>
+              <td><span class="partial">Integration needed</span></td>
+              <td><span class="check">✓ (MoR model)</span></td>
+              <td><span class="check">✓ (via tax rates)</span></td>
+            </tr>
+            <tr>
+              <td>130+ Currency Support</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Via gateway</span></td>
+              <td><span class="partial">Via gateway</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓ (multi-currency)</span></td>
+            </tr>
+            <tr>
+              <td>160+ Payment Methods</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Via gateway</span></td>
+              <td><span class="partial">Via gateway</span></td>
+              <td><span class="partial">Curated list</span></td>
+              <td><span class="partial">Via Stripe/GoCardless</span></td>
+            </tr>
+            <tr>
+              <td>Native Global Payment Account</td>
+              <td class="aw-col"><span class="check">✓ (Unique)</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+            </tr>
+            <tr>
+              <td>Smart Dunning & Retries</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Manual reminders</span></td>
+            </tr>
+            <tr>
+              <td>Credit Notes & Partial Refunds</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Low-code Hosted Checkout</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Limited</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="cross">✗</span></td>
+            </tr>
+            <tr>
+              <td>Webhook Event System</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Sandbox / Test Environment</td>
+              <td class="aw-col"><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="check">✓</span></td>
+              <td><span class="partial">Demo company only</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- 7. ADDITIONAL REQUIREMENTS -->
+    <section class="section" id="requirements">
+      <div class="section-header">
+        <div class="section-icon">📐</div>
+        <div>
+          <div class="section-num">07</div>
+          <div class="section-title">Additional Requirements</div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Legal & Compliance</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Requirement</th><th>Detail</th><th>Who Owns</th></tr></thead>
+          <tbody>
+            <tr><td>PCI-DSS Compliance</td><td>Hosted Checkout & Embedded Elements → SAQ A. Native API → ROC required from merchant</td><td>Customer (advised by SE)</td></tr>
+            <tr><td>Tax Registration</td><td>Merchant must self-register in each tax jurisdiction. Airwallex Tax calculates but does not file</td><td>Customer (legal/finance)</td></tr>
+            <tr><td>Data Residency</td><td>Confirm applicable data residency requirements with Legal for regulated markets (e.g., China, EU)</td><td>AW Legal + Customer</td></tr>
+            <tr><td>KYB / Onboarding</td><td>Merchant must pass Airwallex KYB before live transactions. Allow 2–5 business days</td><td>AW Compliance</td></tr>
+            <tr><td>Terms of Service</td><td>Customer signs Airwallex Merchant Agreement. Billing addendum may apply</td><td>AW Commercial / Legal</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="subsection-title">Reporting</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Report Type</th><th>Availability</th><th>Format</th></tr></thead>
+          <tbody>
+            <tr><td>Transaction-level Tax Report</td><td>Per invoice / subscription</td><td>CSV export (Web App)</td></tr>
+            <tr><td>Invoice Status Report</td><td>Real-time in Web App</td><td>CSV / Web</td></tr>
+            <tr><td>Subscription Revenue Report</td><td>In-app dashboard</td><td>Web App</td></tr>
+            <tr><td>Payment Reconciliation</td><td>Auto-reconciled with Airwallex payments</td><td>Web App + API</td></tr>
+            <tr><td>Dunning / Retry Logs</td><td>Via Webhook history</td><td>JSON / Web App</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="subsection-title">Technical Requirements for Integration</div>
+      <div class="two-col">
+        <div>
+          <ul class="check-list">
+            <li>Airwallex account (sandbox recommended for dev)</li>
+            <li>API key and Client Secret from Airwallex Web App</li>
+            <li>Backend server (Node.js, Python, etc.) for API calls</li>
+            <li>Frontend (web or mobile) for checkout integration</li>
+          </ul>
+        </div>
+        <div>
+          <ul class="check-list">
+            <li>Publicly accessible webhook endpoint (HTTPS)</li>
+            <li>Legal Entity ID (for multi-entity setups)</li>
+            <li>Linked Payment Account ID (for auto-charge)</li>
+            <li>Tax registration details per jurisdiction (if using Tax)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 8. PRICING & SALES PROCESS -->
+    <section class="section" id="pricing">
+      <div class="section-header">
+        <div class="section-icon">💰</div>
+        <div>
+          <div class="section-num">08</div>
+          <div class="section-title">Pricing & Sales Process</div>
+        </div>
+      </div>
+
+      <div class="pricing-note">
+        <p><strong>Verified:</strong> Airwallex Billing has <strong>no separate product-level pricing tier</strong> — it is included as part of existing Airwallex account plans at no added cost. This was confirmed publicly by Airwallex's Chief Product Officer at launch (May 2026). Revenue for Airwallex is generated through payment processing fees on transactions collected through the Billing product.</p>
+        <p><strong>Airwallex account plans</strong> (as at mid-2025, per airwallex.com/pricing): The platform uses a tiered subscription model — <em>Explore</em> (free, with qualifying deposit or balance conditions), <em>Grow</em> (mid-tier, monthly fee per legal entity), and <em>Accelerate</em> (enterprise, from ~£999/month). These tiers govern spend management features, not Billing specifically. Transaction-level fees for FX and payment processing apply on top of any plan tier.</p>
+        <p><strong>Payment processing fees</strong> (indicative, varies by region and plan): Domestic card processing ~2.8% + $0.30; international cards ~4.3% + $0.30. FX markup: 0.5% for major currencies (USD, EUR, GBP, SGD, HKD, AUD), up to 1.0% for other currencies. These apply to payments collected through Billing. <em>Always confirm current rates with the Commercial/Pricing team — rates are region- and volume-dependent.</em></p>
+        <p>For deal-specific pricing, refer to the <span class="placeholder-tag">[Internal Pricing Guide]</span> or work with your Commercial/Pricing team. Volume discounts and custom enterprise pricing are available.</p>
+      </div>
+
+      <div class="subsection-title">Sales Motion</div>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num">1</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Discovery</div>
+            <div class="step-desc">Understand current billing stack, revenue volume, currencies, billing models used (flat, usage, hybrid). Identify pain points around tax, reconciliation, and failed payments. Qualify Airwallex account status.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num">2</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Demo & Technical Validation</div>
+            <div class="step-desc">Run a tailored demo using the Billing sandbox. Loop in SE for technical architecture review. Validate integration path (Hosted Checkout vs. Embedded vs. API). Address PCI-DSS and tax requirements early.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num">3</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Commercial Proposal</div>
+            <div class="step-desc">Work with Commercial team to structure a proposal. Confirm KYB status and legal entity setup. Include Billing as part of full Airwallex platform pitch where relevant (Payments, FX, Cards).</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num">4</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Onboarding & Integration</div>
+            <div class="step-desc">KYB completion → sandbox access → integration → production go-live. SE provides technical support during integration. Customer Success takes over post-launch.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left">
+            <div class="step-num">5</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step-body">
+            <div class="step-title">Expand</div>
+            <div class="step-desc">Post-launch expansion opportunities: additional currencies, usage-based billing (as it GAs), Tax in new jurisdictions, additional Airwallex products (Expense Cards, FX Hedging, Global Accounts).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 9. FAQ -->
+    <section class="section" id="faq">
+      <div class="section-header">
+        <div class="section-icon">❓</div>
+        <div>
+          <div class="section-num">09</div>
+          <div class="section-title">Frequently Asked Questions</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Does Airwallex Billing work without an existing Airwallex payment account?</div>
+        <div class="faq-a">No. Airwallex Billing is natively connected to Airwallex's payment infrastructure. Merchants must have an active Airwallex account to collect payments through Billing. This is also a key selling point — revenue settles directly into the same account used for FX, payouts, and cards.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What billing models are supported?</div>
+        <div class="faq-a">Airwallex Billing supports flat-rate, per-unit, tiered pricing, multi-frequency subscriptions, usage-based billing (via meters and usage events), one-off invoices, and hybrid models combining multiple billing types in a single subscription.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How does Automatic Tax Calculation work? Does it file returns?</div>
+        <div class="faq-a">Airwallex Tax automatically calculates indirect tax (VAT, GST, sales tax) on invoices, subscriptions, and checkout flows based on the merchant's tax registrations, product tax categories, and customer billing address. It does <strong>not</strong> file returns or register the merchant with tax authorities — those remain the merchant's responsibility. Exportable CSV tax reports support the filing workflow.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How long does integration typically take?</div>
+        <div class="faq-a">Hosted Billing Checkout can be integrated in a matter of days with minimal code. A full custom integration using the Native Payments API may take 4–8 weeks depending on engineering bandwidth and complexity of billing models.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can a customer migrate from Stripe or Chargebee?</div>
+        <div class="faq-a">Yes, though migration complexity varies. Key considerations include migrating existing customer records, payment sources (stored cards), active subscriptions, and historical invoice data. Work with the SE team to scope a migration plan. Airwallex does not provide an automated migration tool at this time.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is there a no-code / zero-code option for non-technical teams?</div>
+        <div class="faq-a">Yes. The Airwallex Web App allows finance and ops teams to create invoices, set up subscriptions, configure pricing, and manage billing customers without writing code. Hosted Billing Checkout requires minimal backend code from a developer, but the customer-facing experience is fully managed by Airwallex.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What happens when a subscription payment fails?</div>
+        <div class="faq-a">Airwallex Billing automatically retries failed payments using a smart retry schedule. The subscription moves to <span class="mono">UNPAID</span> status. Automated email reminders are sent to the customer. If payment is eventually collected, the subscription returns to <span class="mono">ACTIVE</span>. If not, it moves to <span class="mono">CANCELLED</span>. Merchants can also configure custom dunning flows via webhooks.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Is usage-based billing (meters) generally available?</div>
+        <div class="faq-a">Usage-based billing is available via API. Full Web App support for meters is on the roadmap — confirm current status with the Product team before committing to prospects. Flag as a near-term GA capability when relevant.</div>
+      </div>
+    </section>
+
+
+    <!-- 10. SUPPORT POCs -->
+    <section class="section" id="contacts">
+      <div class="section-header">
+        <div class="section-icon">👥</div>
+        <div>
+          <div class="section-num">10</div>
+          <div class="section-title">Support POCs</div>
+        </div>
+      </div>
+
+      <p class="body">Contact the relevant team for pre-sales support, technical queries, escalations, or deal structuring. Update with current names before distributing.</p>
+
+      <div class="contacts-grid">
+        <div class="contact-card">
+          <div class="contact-role">Product Marketing</div>
+          <div class="contact-name"><span class="placeholder-tag">[Name]</span></div>
+          <div class="contact-info">Competitive intel, messaging, collateral requests<br><a href="#">Slack: #billing-pmm</a></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-role">Solutions Engineering</div>
+          <div class="contact-name"><span class="placeholder-tag">[Name]</span></div>
+          <div class="contact-info">Technical demos, integration scoping, API questions<br><a href="#">Slack: #billing-se</a></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-role">Product Management</div>
+          <div class="contact-name"><span class="placeholder-tag">[Name]</span></div>
+          <div class="contact-info">Roadmap enquiries, feature gaps, customer feedback<br><a href="#">Slack: #billing-pm</a></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-role">Commercial / Pricing</div>
+          <div class="contact-name"><span class="placeholder-tag">[Name]</span></div>
+          <div class="contact-info">Deal structuring, custom pricing, discounts<br><a href="#">Slack: #commercial</a></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-role">Legal / Compliance</div>
+          <div class="contact-name"><span class="placeholder-tag">[Name]</span></div>
+          <div class="contact-info">Contract review, data residency, tax registration queries<br><a href="#">Slack: #legal-support</a></div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-role">Customer Success</div>
+          <div class="contact-name"><span class="placeholder-tag">[Name]</span></div>
+          <div class="contact-info">Post-sale escalations, onboarding support, expansion<br><a href="#">Slack: #cs-billing</a></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="callout gray">
+        <div class="callout-title">Document Feedback</div>
+        Found an error or have a suggestion? Raise it in <a href="#" style="color:var(--aw-purple)">#billing-gtm</a> or tag the document owner <span class="placeholder-tag">[Document Owner Name]</span>. This brief is reviewed quarterly.
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div><span class="brand">Airwallex</span> · Sales Brief: Billing · Internal Use Only · Do Not Distribute Externally</div>
+  <div>Version <span class="placeholder-tag">[v1.0]</span> · Last Updated <span class="placeholder-tag">[DATE]</span></div>
+</footer>
+
+<script>
+  // Highlight active TOC item on scroll
+  const sections = document.querySelectorAll('.section');
+  const tocItems = document.querySelectorAll('.toc-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocItems.forEach(item => item.classList.remove('active'));
+        const active = document.querySelector(`.toc-item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-20px 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
